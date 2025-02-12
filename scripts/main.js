@@ -1,4 +1,5 @@
 
+
 //main 
 function site(e) {
   console.log(e);
@@ -7,9 +8,33 @@ function site(e) {
 }
 
 
-console.log("Hallo!!!!! gehts noch?")
-
 var usrName;
+var loggedIn = false
+var connection;
+
+var ipServer = "192.168.8.243"
+
+
+function officialRights(e, error) {
+  if (loggedIn == true) {
+    console.log(e);
+    var url = "contact.html?" + e.src;
+    window.location.assign(url);
+  } else {
+    console.log(error)
+  }
+}
+
+function fullInfo(error) {
+  document.getElementById("ipAdress").innerHTML = " " + ipServer + " ";
+  
+  if (loggedIn == true) {
+    connection = "open";
+  } else {
+    connection = "closed";
+  }
+  document.getElementById("connection?").innerHTML = connection + " ";
+}
 
 function userName() {
   
@@ -42,6 +67,5 @@ function chatabname() {
 function writeLastCommand(arg) {
   
   document.getElementById("lastCommandSpace").innerHTML =  arg;
-  console.log(arg)
   
 }

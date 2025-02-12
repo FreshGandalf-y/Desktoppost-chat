@@ -27,6 +27,15 @@ header {
     display: flex;
 }
 
+.contact{
+    padding: 10px;
+    margin: 10px;
+    font-family: system-ui ;
+    justify-content: center ;
+    display: flex;
+    cursor: pointer;
+}
+
 .picture {
     height: auto;
     width: 500px;
@@ -111,4 +120,45 @@ header {
 
 .lastcommandspace {
     color: #669999;
+}
+
+.onFlex {
+    height: 70px;
+    width: 300px;
+    border-radius: 10px;
+    background-color: #5c8a8a;
+    border-style: dashed;
+    margin: 10px;
+    justify-content: left ;
+    display: flex;
+}
+
+.onFlex a {
+   text-decoration: none;
+   color: #000;
+}
+
+
+.onFlex1{
+    overflow: hidden;
+}
+
+.onFlex1 img {
+    height: 65px;
+    width: 65px;
+    border-radius: 10px;
+    padding: 3px;
+    background-color: none;
+}
+
+.Flexes {
+    height: auto;
+    width: auto;
+    padding: 10px;
+    margin-top: 20px ;
+    border-style: solid ;
+    border-radius: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
 }
