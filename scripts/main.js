@@ -13,7 +13,26 @@ var loggedIn = false
 var connection;
 
 var ipServer = "192.168.8.243"
+var valueForWs;
 
+const ws = new WebSocket("ws://localhost:8082")
+
+ws.addEventListener("open", () => {
+  console.log("we are connected");
+});
+
+function sendData( error) {
+  const data = {
+    myusrName: usrName,
+    theLastCommand: valueForWs
+  }
+  ws.send(JSON.stringify(data));
+  if (error) {
+    console.log("send arguments to ws does not function")
+  } else {
+    console.log("send arguments to ws enabled")
+  }
+}
 
 function officialRights(e, error) {
   if (loggedIn == true) {
@@ -36,7 +55,7 @@ function fullInfo(error) {
   document.getElementById("connection?").innerHTML = connection + " ";
 }
 
-function userName() {
+function username() {
   
   usrName = usrName ?? "anonymous";
   document.getElementById("usrl").innerHTML = usrName + ": ";
@@ -58,14 +77,20 @@ document.addEventListener("keydown", function(event) {
 
 function chatabname() {
   var lastmesage = document.getElementById("input")
-  var wert = lastmesage.value
-  console.log("last command: " + wert)
-  writeLastCommand(wert)
-  
+  var value = lastmesage.value
+  console.log("last command: " + value)
+  writeLastCommand(value)
+  commandToWs(value)
 }
 
 function writeLastCommand(arg) {
   
   document.getElementById("lastCommandSpace").innerHTML =  arg;
   
+}
+
+function commandToWs(arg) {
+    valueForWs = arg
+    console.log("valueForWs: " + valueForWs)
+    sendData()
 }
