@@ -1,5 +1,3 @@
-
-
 //main 
 function site(e) {
   console.log(e);
@@ -9,24 +7,47 @@ function site(e) {
 
 
 var usrName;
+var password;
 var loggedIn = false
 var connection;
+const date = Date()
 
 var ipServer = "192.168.8.243"
 var valueForWs;
 
 const ws = new WebSocket("ws://localhost:8082")
 
-ws.addEventListener("open", () => {
+ws.onopen = function () {
   console.log("we are connected");
-});
+};
+
+ws.onmessage = function (event) {
+  const data = JSON.parse(event.data);
+
+  if (data.type === 'contant') {
+    console.log("html data arrived", data)
+    document.getElementById("secretDashbord").innerHTML = data.html;
+    
+  } else if (data.type === 'error') {
+    console.error('Mistake', data.message);
+  } else if (data.type === 'chatResponse') {
+
+    var commanduser = data.myusrName
+    var command = data.theLastCommand
+    var timeUser = data.datetime
+    
+    console.log(commanduser, command, timeUser)
+    //document.getElementById("lastCommandspace").innerHTML = commanduser, command, timeUser;
+  }
+}
 
 function sendData( error) {
   const data = {
     myusrName: usrName,
-    theLastCommand: valueForWs
+    theLastCommand: valueForWs,
+    datetime: date
   }
-  ws.send(JSON.stringify(data));
+  ws.send(JSON.stringify({type: 'chatmessage', data: data}));
   if (error) {
     console.log("send arguments to ws does not function")
   } else {
@@ -34,13 +55,42 @@ function sendData( error) {
   }
 }
 
-function officialRights(e, error) {
+function showDashbord(error) {
   if (loggedIn == true) {
-    console.log(e);
-    var url = "contact.html?" + e.src;
+    var url = "dashbord.html";
     window.location.assign(url);
   } else {
+    document.getElementById("customAlert").style.display = "flex";
+  }
+}
+
+function seeDashboard() {
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ type: 'getContentDashbord'}))
+  } else {
+    ws.addEventListener('open', () => {
+      ws.send(JSON.stringify({ type: 'getContentDashbord'}))
+    })
+  }
+}
+
+function closeAlert() {
+  document.getElementById("customAlert").style.display = "none";
+}
+
+function commitSign_In(error) {
+  const username = document.getElementById("userNameVerification")
+  const password = document.getElementById("passwordVerification")
+
+  const data = {
+    userName: username,
+    passWord: password,
+  };
+  ws.send(JSON.stringify(data));
+  if (error) {
     console.log(error)
+  } else {
+    console.log("send usernames to Server succed")
   }
 }
 
@@ -52,7 +102,7 @@ function fullInfo(error) {
   } else {
     connection = "closed";
   }
-  document.getElementById("connection?").innerHTML = connection + " ";
+  document.getElementById("connection?").innerHTML = " " + connection + " ";
 }
 
 function username() {
@@ -71,26 +121,18 @@ function creatorname() {
 document.addEventListener("keydown", function(event) {
   if (event.key === "Enter") {
     
-    chatabname()
+    chatcontant()
   }
 })
 
-function chatabname() {
+function chatcontant() {
   var lastmesage = document.getElementById("input")
   var value = lastmesage.value
   console.log("last command: " + value)
-  writeLastCommand(value)
   commandToWs(value)
-}
-
-function writeLastCommand(arg) {
-  
-  document.getElementById("lastCommandSpace").innerHTML =  arg;
-  
 }
 
 function commandToWs(arg) {
     valueForWs = arg
-    console.log("valueForWs: " + valueForWs)
     sendData()
 }

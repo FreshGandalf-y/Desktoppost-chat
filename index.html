@@ -10,9 +10,25 @@
 <body onload="username(), creatorname(), fullInfo()">
     <header >
         <a href="index.html" class="logo">Desk-Top!</a>
-        <a class="contact" onclick="officialRights(this)"> connection to <span style="color: #669999; padding-right: 5px; padding-left: 5px;"  id="ipAdress"></span> <span id="connection?" ></span></a>
+       <a class="contact" onclick="showDashbord()"> connection to <span style="color: #669999; padding-right: 5px; padding-left: 5px;"  id="ipAdress"></span> <span id="connection?" ></span></a>
     </header>
 
+    <div id="customAlert" class="alert-container">
+        <div class="alert-box">
+            <h1>You are not logged in</h1>
+            <div class="inputNotLoggedIn">
+                <input id="userNameVerification" type="text" placeholder="username">
+            </div>
+            <div class="inputNotLoggedIn">
+                <input id="passwordVerification" type="text" placeholder="password">
+            </div> 
+            <button onclick="commitSignIn">commit</button> <br> <!--function does not work jet, it will send the infos to websocket-->
+            <br>
+            <a >If you are not registered, contact the system administrator</a> <br> <br>
+            <button onclick="closeAlert()">close alert</button>
+        </div>
+        
+    </div>
     <div style="display: flex; flex-wrap: wrap; justify-content: left;">
         <div class="newPic" id="">
             <div class="pic" id="picjs">
@@ -63,6 +79,42 @@
         </div>
         
     </div>
+
+    <div class="newPic" id="">
+        <div class="pic" id="picjs">
+            <img onclick="site(this)" class="picture"  src="images/somethingLinux.jpg" alt="">
+        </div>
+        <div class="" style="align-items: center; display: flex; flex-direction: row;">
+            <div class="maininfo" id="maininfojs">
+                <a>OS: </a>
+                <a>DeskUt: </a>
+            </div>
+            <div class="Usr" id="Usrjs">
+                <img class="usrpic" id="" src="images/WhatsApp_Béla.jpeg" alt="USR">
+                <a> <span id="creatorName"></span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="newPic" id="">
+        <div class="pic" id="picjs">
+            <img onclick="site(this)" class="picture"  src="images/somethingLinux.jpg" alt="">
+        </div>
+        <div class="" style="align-items: center; display: flex; flex-direction: row;">
+            <div class="maininfo" id="maininfojs">
+                <a>OS: </a>
+                <a>DeskUt: </a>
+            </div>
+            <div class="Usr" id="Usrjs">
+                <img class="usrpic" id="" src="images/WhatsApp_Béla.jpeg" alt="USR">
+                <a> <span id="creatorName"></span></a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+    
+</div>
 
     <div >
         <div id="terminal" class="terminal" rows="20">
