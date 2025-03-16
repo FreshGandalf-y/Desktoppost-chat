@@ -8,7 +8,7 @@ function site(e) {
 
 var usrName;
 var password;
-var loggedIn = false
+var loggedIn = true
 var connection;
 const date = Date()
 
@@ -25,19 +25,34 @@ ws.onmessage = function (event) {
   const data = JSON.parse(event.data);
 
   if (data.type === 'contant') {
-    console.log("html data arrived", data)
-    document.getElementById("secretDashbord").innerHTML = data.html;
+    console.log("html data arrived (Dashbord)", data)
+    let blob = new Blob([data.html], { type: "text/html"});
+    let url = URL.createObjectURL(blob);
+    document.getElementById('dynamicDashbord').src = url;
     
   } else if (data.type === 'error') {
     console.error('Mistake', data.message);
   } else if (data.type === 'chatResponse') {
+    console.log("chatresponse recived")
+    var commanduser = data.data.myusrName
+    var command = data.data.theLastCommand
+    var timeUser = data.data.datetime
 
-    var commanduser = data.myusrName
-    var command = data.theLastCommand
-    var timeUser = data.datetime
-    
     console.log(commanduser, command, timeUser)
     //document.getElementById("lastCommandspace").innerHTML = commanduser, command, timeUser;
+  } else if (data.type === 'desk-topsContant') {
+    console.log("desktops recived", data.html)
+    //for (const deskt in data.Dea)
+  }
+}
+
+function desktopsContant() {
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({type: 'desktopsContant'}))
+  } else {
+    ws.addEventListener('open', () => {
+      ws.send(JSON.stringify({type: 'desktopsContant'}))
+    })
   }
 }
 
